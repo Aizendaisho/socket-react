@@ -17,6 +17,14 @@ app.use(morgan("dev"));
 io.on("connection", (socket) => {
   console.log(socket.id);
   console.log("se conecto un usuario");
+
+  socket.on("message", (msg) => {
+    console.log(msg);
+    socket.broadcast.emit("msg", {
+      body: msg,
+      from: socket.id,
+    });
+  });
 });
 
 const PORT = process.env.PORT || 8000;
